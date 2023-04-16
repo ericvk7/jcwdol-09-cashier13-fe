@@ -1,9 +1,81 @@
 import React from "react";
+import { useState } from "react";
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
 import { Select, Input } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { addProductData } from "../features/product/productSlice";
+
 function Setting() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const [idProduct, setIdProduct] = useState();
+  const [nameProduct, setNameProduct] = useState();
+  const [priceProduct, setPriceProduct] = useState();
+  const [imgPathProduct, setImagePathProduct] = useState(null);
+  const [descriptionProduct, setDescriptionProduct] = useState();
+  const [idUserProduct, setIdUseerProduct] = useState(0);
+  const [idCategoryProduct, setIdCategoryProduct] = useState();
+
+  const [file, setFile] = useState(null);
+
+  const addData = async () => {
+    if (file) {
+      const obj = {
+        idProduct: idProduct,
+        nameProduct: nameProduct,
+        priceProduct: priceProduct,
+        descriptionProduct: descriptionProduct,
+        idUserProduct: 0,
+        idCategoryProduct: idCategoryProduct,
+      };
+
+      let formData = new FormData();
+      formData.append("file", file);
+      formData.append("data", JSON.stringify(obj));
+
+      setIdUseerProduct(formData);
+      console.log(formData);
+
+      dispatch(addProductData(formData));
+
+      // const response = await axios.post(
+      //   "http://localhost:8001/upload",
+      //   formData
+      // );
+      // console.log(response);
+    } else {
+      alert("Select image first");
+    }
+  };
+
+  const nameProductHendeler = (e) => {
+    setNameProduct(e.target.value);
+  };
+  const priceProductHendeler = (e) => {
+    setPriceProduct(e.target.value);
+  };
+  const imagePathHendeler = (event) => {
+    setFile(event.target.files[0]);
+
+    let preview = document.getElementById("imagepreview");
+    preview.src = URL.createObjectURL(event.target.files[0]);
+  };
+
+  const descriptionProductHendeler = (e) => {
+    setDescriptionProduct(e.target.value);
+  };
+
+  const idCategoryProductHendeler = (e) => {
+    setIdCategoryProduct(e.target.value);
+  };
+
+  //===================Category=======================
+
+  const addCategory = () => {};
+
   return (
     <Tabs isLazy size="md" variant="enclosed" className="px-10 pt-5 ">
       <TabList>
@@ -31,10 +103,30 @@ function Setting() {
                     </label>
                     <div className="mt-2">
                       <input
+                        onChange={nameProductHendeler}
                         id="productname"
                         name="productname"
                         type="productname"
                         autoComplete="productname"
+                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="sm:col-span-4">
+                    <label
+                      htmlFor="Pekerjaan"
+                      className="block text-sm font-medium leading-6 text-gray-900"
+                    >
+                      Product Price
+                    </label>
+                    <div className="mt-2">
+                      <input
+                        onChange={priceProductHendeler}
+                        id="price"
+                        name="price"
+                        type="number"
+                        autoComplete="price"
                         className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                       />
                     </div>
@@ -49,6 +141,7 @@ function Setting() {
                     </label>
                     <div className="mt-2">
                       <textarea
+                        onChange={descriptionProductHendeler}
                         id="about"
                         name="about"
                         rows={3}
@@ -102,6 +195,11 @@ function Setting() {
                                 id="file"
                                 type="file"
                                 //class="hidden"
+                                onChange={(event) => imagePathHendeler(event)}
+                              />
+                              <img
+                                id="imagepreview"
+                                className="mx-auto h-16 w-16 rounded-full ring-2 ring-red"
                               />
                             </label>
                           </div>
@@ -119,12 +217,15 @@ function Setting() {
                       Category
                     </label>
                     <div className="mt-2">
-                      <Select placeholder="Select Category">
-                        <option value="Pcs">Coffe</option>
-                        <option value="Rol">Tea</option>
-                        <option value="Meter">Snack</option>
-                        <option value="Cm">Soda</option>
-                        <option value="Box">Alcohol</option>
+                      <Select
+                        placeholder="Select Category"
+                        onChange={idCategoryProductHendeler}
+                      >
+                        <option value="1">Coffe</option>
+                        <option value="2">Tea</option>
+                        <option value="3">Snack</option>
+                        <option value="4">Soda</option>
+                        <option value="5">Alcohol</option>
                       </Select>
                     </div>
                   </div>
@@ -135,11 +236,13 @@ function Setting() {
               <button
                 type="button"
                 className="text-sm font-semibold leading-6 text-gray-900"
-                onClick={() => navigate("/Maintenance")}
               >
                 Cancel
               </button>
-              <button className="rounded-md bg-blue-600 py-2 px-3 text-sm font-semibold text-white shadow-sm">
+              <button
+                className="rounded-md bg-blue-600 py-2 px-3 text-sm font-semibold text-white shadow-sm"
+                onClick={() => addData()}
+              >
                 Save
               </button>
             </div>
@@ -179,10 +282,11 @@ function Setting() {
               <button
                 type="button"
                 className="text-sm font-semibold leading-6 text-gray-900"
-                onClick={() => navigate("/Maintenance")}
+                onClick={() => navigate("/")}
               >
                 Cancel
               </button>
+
               <button className="rounded-md bg-blue-600 py-2 px-3 text-sm font-semibold text-white shadow-sm">
                 Save
               </button>
