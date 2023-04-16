@@ -1,13 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import CategoryIcon from "@mui/icons-material/Category";
 import HomeIcon from "@mui/icons-material/Home";
 import PointOfSaleIcon from "@mui/icons-material/PointOfSale";
 import DescriptionIcon from "@mui/icons-material/Description";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { useNavigate } from "react-router-dom";
+import { fetchProduct } from "../features/product/productSlice";
+import { fetchCategory } from "../features/product/productSlice";
+import { useDispatch } from "react-redux";
 
 function Navbar() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchProduct());
+    dispatch(fetchCategory());
+  }, []);
+
   return (
     <div className="flex float-left pr-7">
       <div className="flex flex-col h-screen p-3 bg-gray-800 shadow w-60">

@@ -4,8 +4,23 @@ import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
 import { Select, Input } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addProductData } from "../features/product/productSlice";
+import { addCategory } from "../features/product/productSlice";
+import {
+  Table,
+  Thead,
+  Tbody,
+  Tfoot,
+  Tr,
+  Th,
+  Td,
+  TableCaption,
+  TableContainer,
+  Button,
+  ButtonGroup,
+  Stack,
+} from "@chakra-ui/react";
 
 function Setting() {
   const navigate = useNavigate();
@@ -18,6 +33,9 @@ function Setting() {
   const [descriptionProduct, setDescriptionProduct] = useState();
   const [idUserProduct, setIdUseerProduct] = useState(0);
   const [idCategoryProduct, setIdCategoryProduct] = useState();
+
+  const [idCategories, setIdCategory] = useState(null);
+  const [nameCategories, setNameCategories] = useState();
 
   const [file, setFile] = useState(null);
 
@@ -74,7 +92,73 @@ function Setting() {
 
   //===================Category=======================
 
-  const addCategory = () => {};
+  const addDataCategory = () => {
+    let dataCategory = {
+      id_categories: idCategories,
+      name: nameCategories,
+      id_users: idUserProduct,
+    };
+
+    dispatch(addCategory(dataCategory));
+  };
+
+  const nameCategoriesHendeler = (e) => {
+    setNameCategories(e.target.value);
+  };
+
+  //========================GetTable Product===============
+
+  const productValue = useSelector((state) => state.product.productValue);
+
+  const renderProductList = () => {
+    return productValue.map((product) => {
+      return (
+        <Tr>
+          <Td>{product.id_products}</Td>
+          <Td>{product.name}</Td>
+          <Td>{product.price}</Td>
+          <Td>{product.imgPath}</Td>
+          <Td>{product.description}</Td>
+          <Td>{product.id_categories}</Td>
+          <Td>
+            <Button
+              colorScheme="green"
+              onClick={() => {
+                navigate(`/createedite`);
+              }}
+            >
+              Edit
+            </Button>
+            <Button colorScheme="red">Delet</Button>
+          </Td>
+        </Tr>
+      );
+    });
+  };
+
+  //========================GetTable Category===============
+  const categoryValue = useSelector((state) => state.product.categoryValue);
+  const renderCAtegoriesList = () => {
+    return categoryValue.map((category) => {
+      return (
+        <Tr>
+          <Td>{category.id_categories}</Td>
+          <Td>{category.name}</Td>
+          <Td>
+            <Button
+              colorScheme="green"
+              onClick={() => {
+                navigate(`/createedite`);
+              }}
+            >
+              Edit
+            </Button>
+            <Button colorScheme="red">Delet</Button>
+          </Td>
+        </Tr>
+      );
+    });
+  };
 
   return (
     <Tabs isLazy size="md" variant="enclosed" className="px-10 pt-5 ">
@@ -197,11 +281,11 @@ function Setting() {
                                 //class="hidden"
                                 onChange={(event) => imagePathHendeler(event)}
                               />
-                              <img
-                                id="imagepreview"
-                                className="mx-auto h-16 w-16 rounded-full ring-2 ring-red"
-                              />
                             </label>
+                            <img
+                              id="imagepreview"
+                              className="mx-auto h-60 w-60 ml-8 "
+                            />
                           </div>
                           <br />
                         </div>
@@ -267,10 +351,11 @@ function Setting() {
                     </label>
                     <div className="mt-2">
                       <input
-                        id="productname"
-                        name="productname"
-                        type="productname"
-                        autoComplete="productname"
+                        onChange={nameCategoriesHendeler}
+                        id="nameCategory"
+                        name="nameCategory"
+                        type="nameCategory"
+                        autoComplete="nameCategory"
                         className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                       />
                     </div>
@@ -287,11 +372,51 @@ function Setting() {
                 Cancel
               </button>
 
-              <button className="rounded-md bg-blue-600 py-2 px-3 text-sm font-semibold text-white shadow-sm">
+              <button
+                className="rounded-md bg-blue-600 py-2 px-3 text-sm font-semibold text-white shadow-sm"
+                onClick={() => addDataCategory()}
+              >
                 Save
               </button>
             </div>
           </div>
+        </TabPanel>
+        {/* ===============================EDIT DATA Product================================= */}
+        <TabPanel>
+          <TableContainer>
+            <Table variant="simple">
+              <TableCaption>Imperial to metric conversion factors</TableCaption>
+              <Thead>
+                <Tr>
+                  <Th>id</Th>
+                  <Th>Product Name</Th>
+                  <Th>Price</Th>
+                  <Th>ImagePath</Th>
+                  <Th>Description</Th>
+                  <Th>id_category</Th>
+                  <Th>Settings</Th>
+                </Tr>
+              </Thead>
+              <Tbody>{renderProductList()}</Tbody>
+            </Table>
+          </TableContainer>
+        </TabPanel>
+
+        {/* ===============================EDIT DATA Category================================= */}
+        <TabPanel>
+          <TableContainer>
+            <Table variant="simple">
+              <TableCaption>Imperial to metric conversion factors</TableCaption>
+              <Thead>
+                <Tr>
+                  <Th>id</Th>
+                  <Th>Category Name</Th>
+                  <Th>Settings</Th>
+                </Tr>
+              </Thead>
+              <Tbody>{renderCAtegoriesList()}</Tbody>
+            </Table>
+          </TableContainer>
         </TabPanel>
       </TabPanels>
     </Tabs>
