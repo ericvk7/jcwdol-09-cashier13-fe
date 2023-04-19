@@ -6,6 +6,15 @@ export const productSlice = createSlice({
   initialState: {
     productValue: [],
     categoryValue: [],
+    productId: {
+      id_products: 0,
+      name: "",
+      price: 0,
+      imgPath: null,
+      description: "",
+      id_users: 0,
+      id_categories: 0,
+    },
   },
   reducers: {
     setProductist: (state, action) => {
@@ -21,6 +30,9 @@ export const productSlice = createSlice({
     addCategoryList: (state, action) => {
       state.categoryValue.push(action.payload);
     },
+    productListId: (state, action) => {
+      state.productId = action.payload;
+    },
   },
 });
 
@@ -29,6 +41,7 @@ export const {
   addProductList,
   setCategoryList,
   addCategoryList,
+  productListId,
 } = productSlice.actions;
 export default productSlice.reducer;
 
@@ -36,6 +49,13 @@ export function addProductData(data) {
   return async (dispatch) => {
     let response = await Axios.post("http://localhost:8001/upload", data);
     dispatch(fetchProduct());
+  };
+}
+
+export function editProductData(data) {
+  return async (dispatch) => {
+    let response = await Axios.post("http://localhost:8001/edit", data);
+    console.log(response);
   };
 }
 
@@ -52,6 +72,7 @@ export function addCategory(data) {
       "http://localhost:8001/cashier/add-categories",
       data
     );
+
     dispatch(fetchCategory());
   };
 }
@@ -61,6 +82,25 @@ export function fetchCategory() {
     let response = await Axios.get(
       "http://localhost:8001/cashier/get-categories"
     );
+
     dispatch(setCategoryList(response.data));
+  };
+}
+
+export function getProductById(dataId) {
+  return async (dispatch) => {
+    let response = await Axios.get(
+      "http://localhost:8001/cashier/get-product",
+      {
+        params: {
+          id: dataId,
+        },
+      }
+    );
+    const found = response.data.find(
+      (element) => element.id_products == dataId
+    );
+
+    dispatch(productListId(found));
   };
 }

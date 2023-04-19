@@ -7,6 +7,8 @@ import Category from "./pages/Category";
 import Report from "./pages/Report";
 import Transaction from "./pages/Transaction";
 import Setting from "./pages/Setting";
+import EditProduct from "./pages/EditProduct";
+import EditCategory from "./pages/EditCategory";
 
 function App() {
   return (
@@ -22,6 +24,8 @@ function App() {
           <Route path="/report" element={<Report />} />
           <Route path="/transaction" element={<Transaction />} />
           <Route path="/setting" element={<Setting />} />
+          <Route path="/editproduct/:id" element={<EditProduct />} />
+          <Route path="/editcategory" element={<EditCategory />} />
         </Routes>
       </div>
     </div>

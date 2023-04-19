@@ -124,7 +124,7 @@ function Setting() {
             <Button
               colorScheme="green"
               onClick={() => {
-                navigate(`/createedite`);
+                navigate(`/editproduct/${product.id_products}`);
               }}
             >
               Edit
@@ -148,7 +148,7 @@ function Setting() {
             <Button
               colorScheme="green"
               onClick={() => {
-                navigate(`/createedite`);
+                navigate(`/editcategory`);
               }}
             >
               Edit
