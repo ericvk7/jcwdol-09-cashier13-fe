@@ -159,7 +159,7 @@ function Setting() {
             <Button
               colorScheme="green"
               onClick={() => {
-                navigate(`/editcategory`);
+                navigate(`/editcategory/${category.id_categories}`);
               }}
             >
               Edit

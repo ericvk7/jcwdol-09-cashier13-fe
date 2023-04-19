@@ -25,7 +25,7 @@ function App() {
           <Route path="/transaction" element={<Transaction />} />
           <Route path="/setting" element={<Setting />} />
           <Route path="/editproduct/:id" element={<EditProduct />} />
-          <Route path="/editcategory" element={<EditCategory />} />
+          <Route path="/editcategory/:id" element={<EditCategory />} />
         </Routes>
       </div>
     </div>

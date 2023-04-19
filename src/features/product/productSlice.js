@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import Axios from "axios";
+import { distance } from "framer-motion";
 
 export const productSlice = createSlice({
   name: "product",
@@ -14,6 +15,10 @@ export const productSlice = createSlice({
       description: "",
       id_users: 0,
       id_categories: 0,
+    },
+    categoryId: {
+      id_categories: 0,
+      name: "",
     },
   },
   reducers: {
@@ -33,6 +38,9 @@ export const productSlice = createSlice({
     productListId: (state, action) => {
       state.productId = action.payload;
     },
+    categoryListId: (state, action) => {
+      state.categoryId = action.payload;
+    },
   },
 });
 
@@ -42,6 +50,7 @@ export const {
   setCategoryList,
   addCategoryList,
   productListId,
+  categoryListId,
 } = productSlice.actions;
 export default productSlice.reducer;
 
@@ -49,6 +58,9 @@ export function addProductData(data) {
   return async (dispatch) => {
     let response = await Axios.post("http://localhost:8001/upload", data);
     dispatch(fetchProduct());
+    if (response) {
+      alert("Data Product Added");
+    }
   };
 }
 
@@ -56,6 +68,9 @@ export function editProductData(data) {
   return async (dispatch) => {
     let response = await Axios.post("http://localhost:8001/edit", data);
     dispatch(fetchProduct());
+    if (response) {
+      alert("Data Product Edited");
+    }
   };
 }
 
@@ -86,6 +101,9 @@ export function addCategory(data) {
     );
 
     dispatch(fetchCategory());
+    if (response) {
+      alert("Data Category Added");
+    }
   };
 }
 
@@ -96,6 +114,19 @@ export function fetchCategory() {
     );
 
     dispatch(setCategoryList(response.data));
+  };
+}
+
+export function editCategoryData(data, id) {
+  return async (dispatch) => {
+    let response = await Axios.patch(
+      `"http://localhost:8001/cashier/edit-category/${id}`,
+      data
+    );
+    dispatch(fetchCategory());
+    if (response) {
+      alert("Data Product Edited");
+    }
   };
 }
 
@@ -114,5 +145,22 @@ export function getProductById(dataId) {
     );
 
     dispatch(productListId(found));
+  };
+}
+
+export function getCategorybyId(dataId) {
+  return async (dispatch) => {
+    let response = await Axios.get(
+      "http://localhost:8001/cashier/get-categories",
+      {
+        params: {
+          id: dataId,
+        },
+      }
+    );
+    const found = response.data.find(
+      (element) => element.id_categories == dataId
+    );
+    dispatch(categoryListId(found));
   };
 }

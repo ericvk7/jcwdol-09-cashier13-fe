@@ -15,6 +15,8 @@ function EditProduct() {
 
   useEffect(() => {
     dispatch(getProductById(id));
+  }, []);
+  useEffect(() => {
     setIdProduct(productbyId.id_products);
     setNameProduct(productbyId.name);
     setPriceProduct(productbyId.price);
