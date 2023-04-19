@@ -55,7 +55,19 @@ export function addProductData(data) {
 export function editProductData(data) {
   return async (dispatch) => {
     let response = await Axios.post("http://localhost:8001/edit", data);
-    console.log(response);
+    dispatch(fetchProduct());
+  };
+}
+
+export function deletProductData(data) {
+  return async (dispatch) => {
+    let response = await Axios.delete(
+      `http://localhost:8001/cashier/delet-product/${data}`
+    );
+    dispatch(fetchProduct());
+    if (response) {
+      alert(response.data.message);
+    }
   };
 }
 

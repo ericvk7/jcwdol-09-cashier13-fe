@@ -7,6 +7,7 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { addProductData } from "../features/product/productSlice";
 import { addCategory } from "../features/product/productSlice";
+import { deletProductData } from "../features/product/productSlice";
 import {
   Table,
   Thead,
@@ -38,6 +39,11 @@ function Setting() {
   const [nameCategories, setNameCategories] = useState();
 
   const [file, setFile] = useState(null);
+
+  const deleteData = (id) => {
+    console.log(id);
+    dispatch(deletProductData(id));
+  };
 
   const addData = async () => {
     if (file) {
@@ -129,7 +135,12 @@ function Setting() {
             >
               Edit
             </Button>
-            <Button colorScheme="red">Delet</Button>
+            <Button
+              colorScheme="red"
+              onClick={() => deleteData(product.id_products)}
+            >
+              Delet
+            </Button>
           </Td>
         </Tr>
       );
