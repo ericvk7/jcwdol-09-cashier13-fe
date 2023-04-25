@@ -165,3 +165,15 @@ export function getCategorybyId(dataId) {
     dispatch(categoryListId(found));
   };
 }
+
+export function deleteCategoryData(data) {
+  return async (dispatch) => {
+    let response = await Axios.delete(
+      `http://localhost:8001/cashier/delet-category/${data}`
+    );
+    dispatch(fetchCategory());
+    if (response) {
+      alert(response.data.message);
+    }
+  };
+}

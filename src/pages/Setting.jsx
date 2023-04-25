@@ -5,7 +5,10 @@ import { Select, Input } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { addProductData } from "../features/product/productSlice";
+import {
+  addProductData,
+  deleteCategoryData,
+} from "../features/product/productSlice";
 import { addCategory } from "../features/product/productSlice";
 import { deletProductData } from "../features/product/productSlice";
 import {
@@ -43,6 +46,11 @@ function Setting() {
   const deleteData = (id) => {
     console.log(id);
     dispatch(deletProductData(id));
+  };
+
+  const deleteCategory = (id) => {
+    console.log(id);
+    dispatch(deleteCategoryData(id));
   };
 
   const addData = async () => {
@@ -164,9 +172,23 @@ function Setting() {
             >
               Edit
             </Button>
-            <Button colorScheme="red">Delet</Button>
+            <Button
+              colorScheme="red"
+              onClick={() => deleteCategory(category.id_categories)}
+            >
+              Delet
+            </Button>
           </Td>
         </Tr>
+      );
+    });
+  };
+
+  //=======================Drop Down Category========================
+  const renderCategoryDropDown = () => {
+    return categoryValue.map((newCategory) => {
+      return (
+        <option value={newCategory.id_categories}>{newCategory.name}</option>
       );
     });
   };
@@ -316,11 +338,7 @@ function Setting() {
                         placeholder="Select Category"
                         onChange={idCategoryProductHendeler}
                       >
-                        <option value="1">Coffe</option>
-                        <option value="2">Tea</option>
-                        <option value="3">Snack</option>
-                        <option value="4">Soda</option>
-                        <option value="5">Alcohol</option>
+                        {renderCategoryDropDown()}
                       </Select>
                     </div>
                   </div>
