@@ -1,18 +1,71 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchProduct } from "../features/product/productSlice";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import ProductCard from "../components/ProductCard";
-
+import { Pagination } from "@material-ui/lab";
+import usePagination from "./Pagination";
 import { Divider, Select, Stack } from "@chakra-ui/react";
 
 function Product() {
   const dispatch = useDispatch();
   const productValue = useSelector((state) => state.product.productValue);
+  const categoryValue = useSelector((state) => state.product.categoryValue);
+
+  const [inputText, setInputText] = useState("");
+  const [dropDown, UseDropDown] = useState("");
+
+  let inputTextHendeler = (e) => {
+    var dataInput = e.target.value;
+    setInputText(dataInput);
+  };
+
+  let dropDownHendeler = (e) => {
+    var dataInput = e.target.value;
+    UseDropDown(dataInput);
+  };
+
+  let [page, setPage] = useState(1);
+  const PER_PAGE = 8;
+  const count = Math.ceil(productValue.length / PER_PAGE);
+  const _DATA = usePagination(productValue, PER_PAGE);
+  const handleChange = (e, p) => {
+    setPage(p);
+    _DATA.jump(p);
+  };
 
   const renderProductList = () => {
-    return productValue.map((product) => {
+    const filterData = _DATA.currentData().filter((el) => {
+      console.log(el);
+
+      if (inputText == "" && dropDown == "") {
+        console.log("1");
+        return el;
+      }
+      if (!dropDown == "" && inputText == "") {
+        console.log("2");
+        return el.id_categories == dropDown;
+      }
+      if (!inputText == "" && dropDown == "") {
+        console.log("3");
+        return el.name.includes(inputText);
+      }
+      if (!inputText == "" && !dropDown == "") {
+        console.log("4");
+        return el.id_categories == dropDown && el.name.includes(inputText);
+      }
+    });
+
+    return filterData.map((product) => {
       return <ProductCard product={product} />;
+    });
+  };
+
+  const renderCategoryDropDown = () => {
+    return categoryValue.map((newCategory) => {
+      return (
+        <option value={newCategory.id_categories}>{newCategory.name}</option>
+      );
     });
   };
 
@@ -23,33 +76,34 @@ function Product() {
   return (
     <>
       <Stack
-        className="flex flex-row justify-center mb-20 "
+        className="flex flex-row justify-center mb-4 "
         direction="row"
         spacing={4}
         align="center"
       >
         <div>
-          <h2>Short By</h2>
-          <Select placeholder="Select Line" className="m-auto w-3/4 mr-8">
-            <option value="Line1">Category 1</option>
-            <option value="Line2">Category 2</option>
-            <option value="Line3">Category 3</option>
+          <h2>Short By Category</h2>
+          <Select
+            placeholder="Select Category"
+            className="m-auto w-3/4 mr-8"
+            onChange={dropDownHendeler}
+          >
+            {renderCategoryDropDown()}
           </Select>
         </div>
 
         <div>
           <h2>Category</h2>
           <Select placeholder="Select Line" className="m-auto w-3/4 mr-8">
-            <option value="Line1">Category 1</option>
-            <option value="Line2">Category 2</option>
-            <option value="Line3">Category 3</option>
+            <option value="Line1">Name</option>
+            <option value="Line2">Price</option>
           </Select>
         </div>
         <div>
           <h1>Search</h1>
           <div className="search">
             <input
-              //onChange={inputHandler}
+              onChange={inputTextHendeler}
               id="outlined-basic"
               variant="outlined"
               fullWidth
@@ -60,8 +114,18 @@ function Product() {
         </div>
       </Stack>
 
-      <div className="grid grid-cols-5 gap-10 m-auto w-3/4 ">
+      <div className="grid grid-cols-4 gap-10 m-auto w-3/4 ">
         {renderProductList()}
+      </div>
+      <div className="flex flex-row justify-center mt-4">
+        <Pagination
+          count={count}
+          size="large"
+          page={page}
+          variant="outlined"
+          shape="rounded"
+          onChange={handleChange}
+        />
       </div>
     </>
   );
