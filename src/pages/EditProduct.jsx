@@ -24,7 +24,7 @@ function EditProduct() {
     setDescriptionProduct(productbyId.description);
     setIdUseerProduct(productbyId.id_users);
     setIdCategoryProduct(productbyId.id_categories);
-  }, []);
+  }, [productbyId]);
 
   const [idProduct, setIdProduct] = useState();
   const [nameProduct, setNameProduct] = useState();

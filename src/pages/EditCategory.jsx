@@ -13,23 +13,24 @@ function EditCategory() {
 
   const CategoryId = useSelector((state) => state.product.categoryId);
 
+  const [nameCategory, setName] = useState("");
+
   useEffect(() => {
     dispatch(getCategorybyId(id));
-    setName(CategoryId.name);
   }, []);
-
-  const [nameById, setNameById] = useState();
-  const [name, setName] = useState();
+  useEffect(() => {
+    setName(CategoryId.name);
+  }, [CategoryId]);
 
   const editDataCategory = () => {
     let tempData = {
-      name: nameById,
+      name: nameCategory,
     };
     dispatch(editCategoryData(tempData, id));
   };
 
   const nameCategoriesHendeler = (e) => {
-    setNameById(e.target.value);
+    setName(e.target.value);
   };
 
   return (
@@ -51,12 +52,10 @@ function EditCategory() {
               <div className="mt-2">
                 <input
                   onChange={nameCategoriesHendeler}
-                  placeholder={name}
-                  //value={name}
+                  value={nameCategory}
                   id="nameCategory"
                   name="nameCategory"
-                  type="nameCategory"
-                  autoComplete="nameCategory"
+                  type="text"
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>

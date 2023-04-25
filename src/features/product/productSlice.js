@@ -120,9 +120,10 @@ export function fetchCategory() {
 export function editCategoryData(data, id) {
   return async (dispatch) => {
     let response = await Axios.patch(
-      `"http://localhost:8001/cashier/edit-category/${id}`,
+      `http://localhost:8001/cashier/edit-category/${id}`,
       data
     );
+    console.log(response);
     dispatch(fetchCategory());
     if (response) {
       alert("Data Product Edited");
