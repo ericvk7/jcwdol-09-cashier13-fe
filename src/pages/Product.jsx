@@ -5,7 +5,13 @@ import { useEffect, useState } from "react";
 import ProductCard from "../components/ProductCard";
 import { Pagination } from "@material-ui/lab";
 import usePagination from "./Pagination";
-import { Divider, Select, Stack } from "@chakra-ui/react";
+import {
+  Divider,
+  Select,
+  Stack,
+  Checkbox,
+  CheckboxGroup,
+} from "@chakra-ui/react";
 
 function Product() {
   const dispatch = useDispatch();
@@ -14,7 +20,10 @@ function Product() {
 
   const [inputText, setInputText] = useState("");
   const [dropDown, UseDropDown] = useState("");
+  const [shortHendeler, UseShortHendeler] = useState();
+  const [acddec, UseAcddec] = useState();
 
+  console.log(shortHendeler, acddec);
   let inputTextHendeler = (e) => {
     var dataInput = e.target.value;
     setInputText(dataInput);
@@ -23,6 +32,15 @@ function Product() {
   let dropDownHendeler = (e) => {
     var dataInput = e.target.value;
     UseDropDown(dataInput);
+  };
+
+  let shortByHendler = (e) => {
+    var dataInput = e.target.value;
+    UseShortHendeler(dataInput);
+  };
+  let acddecHendelr = (e) => {
+    var dataInput = e.target.value;
+    UseAcddec(dataInput);
   };
 
   let [page, setPage] = useState(1);
@@ -36,22 +54,16 @@ function Product() {
 
   const renderProductList = () => {
     const filterData = _DATA.currentData().filter((el) => {
-      console.log(el);
-
       if (inputText == "" && dropDown == "") {
-        console.log("1");
         return el;
       }
       if (!dropDown == "" && inputText == "") {
-        console.log("2");
         return el.id_categories == dropDown;
       }
       if (!inputText == "" && dropDown == "") {
-        console.log("3");
         return el.name.includes(inputText);
       }
       if (!inputText == "" && !dropDown == "") {
-        console.log("4");
         return el.id_categories == dropDown && el.name.includes(inputText);
       }
     });
@@ -94,11 +106,27 @@ function Product() {
 
         <div>
           <h2>Category</h2>
-          <Select placeholder="Select Line" className="m-auto w-3/4 mr-8">
-            <option value="Line1">Name</option>
-            <option value="Line2">Price</option>
+          <Select
+            placeholder="Short by"
+            className="m-auto w-3/4 mr-8"
+            onChange={shortByHendler}
+          >
+            <option value={1}>Name</option>
+            <option value={2}>Price</option>
           </Select>
         </div>
+        <div>
+          <h2>Category</h2>
+          <Select
+            placeholder="Short"
+            className="m-auto w-3/4 mr-8"
+            onChange={acddecHendelr}
+          >
+            <option value="acd">Ascending</option>
+            <option value="dce">Descending</option>
+          </Select>
+        </div>
+
         <div>
           <h1>Search</h1>
           <div className="search">
