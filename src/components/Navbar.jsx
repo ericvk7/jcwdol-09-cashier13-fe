@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 function Navbar() {
   const dispatch = useDispatch();
@@ -34,12 +35,11 @@ function Navbar() {
         <div className="container flex items-center justify-between py-0 flex-wrap-inherit">
           <a
             className="py-2.375 text-sm mr-4 ml-4 whitespace-nowrap font-bold text-white lg:ml-0"
-            href="../pages/dashboard.html"
+            onClick={() => navigate("/")}
           >
             Lychee POS
           </a>
           <button
-            navbar-trigger
             className="px-3 py-1 ml-2 leading-none transition-all bg-transparent border border-transparent border-solid rounded-lg shadow-none cursor-pointer text-lg ease-soft-in-out lg:hidden"
             type="button"
             aria-controls="navigation"
@@ -47,24 +47,12 @@ function Navbar() {
             aria-label="Toggle navigation"
           >
             <span className="inline-block mt-2 align-middle bg-center bg-no-repeat bg-cover w-6 h-6 bg-none">
-              <span
-                bar1
-                className="w-5.5 rounded-xs duration-350 relative my-0 mx-auto block h-px bg-white transition-all"
-              ></span>
-              <span
-                bar2
-                className="w-5.5 rounded-xs mt-1.75 duration-350 relative my-0 mx-auto block h-px bg-white transition-all"
-              ></span>
-              <span
-                bar3
-                className="w-5.5 rounded-xs mt-1.75 duration-350 relative my-0 mx-auto block h-px bg-white transition-all"
-              ></span>
+              <span className="w-5.5 rounded-xs duration-350 relative my-0 mx-auto block h-px bg-white transition-all"></span>
+              <span className="w-5.5 rounded-xs mt-1.75 duration-350 relative my-0 mx-auto block h-px bg-white transition-all"></span>
+              <span className="w-5.5 rounded-xs mt-1.75 duration-350 relative my-0 mx-auto block h-px bg-white transition-all"></span>
             </span>
           </button>
-          <div
-            navbar-menu
-            className="items-center flex-grow transition-all ease-soft duration-350 lg-max:bg-white lg-max:max-h-0 lg-max:overflow-hidden basis-full rounded-xl lg:flex lg:basis-auto"
-          >
+          <div className="items-center flex-grow transition-all ease-soft duration-350 lg-max:bg-white lg-max:max-h-0 lg-max:overflow-hidden basis-full rounded-xl lg:flex lg:basis-auto">
             <ul className="flex flex-col pl-0 mx-auto mb-0 list-none lg:flex-row xl:ml-auto">
               <li>
                 <a
