@@ -8,8 +8,6 @@ import Verification from "./pages/Verification";
 import { useDispatch, useSelector } from "react-redux";
 import { checkLogin } from "./features/user/userSlice";
 import "./App.css";
-import { Routes, Route } from "react-router-dom";
-import Navbar from "./components/Navbar";
 import Dashboard from "./pages/Dashboard";
 import Product from "./pages/Product";
 import Category from "./pages/Category";
@@ -32,17 +30,22 @@ function App() {
   return (
     <div>
       <Navbar />
-      <Routes>
+      {/* <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/user/register" element={<Register />} />
         <Route path="/user/login" element={<Login />} />
         <Route path="/user/verification/:token" element={<Verification />} />
-      </Routes>
-      <div>
+      </Routes> */}
+      {/* <div>
         <Navbar />
-      </div>
+      </div> */}
       <div>
         <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/user/register" element={<Register />} />
+          <Route path="/user/login" element={<Login />} />
+          <Route path="/user/verification/:token" element={<Verification />} />
+
           <Route path="/product" element={<Product />} />
           <Route path="/category" element={<Category />} />
           <Route path="/dashboard" element={<Dashboard />} />
