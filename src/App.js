@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
+import Sidebar from "./components/Sidebar";
 import Navbar from "./components/Navbar";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
@@ -29,7 +30,6 @@ function App() {
   });
   return (
     <div>
-      <Navbar />
       {/* <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/user/register" element={<Register />} />
@@ -40,20 +40,27 @@ function App() {
         <Navbar />
       </div> */}
       <div>
+        {userGlobal.id > 0 ? <Sidebar /> : <Navbar />}
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/user/register" element={<Register />} />
-          <Route path="/user/login" element={<Login />} />
           <Route path="/user/verification/:token" element={<Verification />} />
-
-          <Route path="/product" element={<Product />} />
-          <Route path="/category" element={<Category />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/report" element={<Report />} />
-          <Route path="/transaction" element={<Transaction />} />
-          <Route path="/setting" element={<Setting />} />
-          <Route path="/editproduct/:id" element={<EditProduct />} />
-          <Route path="/editcategory/:id" element={<EditCategory />} />
+          {userGlobal.id > 0 ? (
+            <>
+              <Route path="/product" element={<Product />} />
+              <Route path="/category" element={<Category />} />
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/report" element={<Report />} />
+              <Route path="/transaction" element={<Transaction />} />
+              <Route path="/setting" element={<Setting />} />
+              <Route path="/editproduct/:id" element={<EditProduct />} />
+              <Route path="/editcategory/:id" element={<EditCategory />} />
+            </>
+          ) : (
+            <>
+              <Route path="/user/register" element={<Register />} />
+              <Route path="/user/login" element={<Login />} />
+            </>
+          )}
         </Routes>
       </div>
     </div>

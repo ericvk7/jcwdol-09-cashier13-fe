@@ -1,148 +1,92 @@
-import React, { useEffect, useState } from "react";
-import CategoryIcon from "@mui/icons-material/Category";
-import HomeIcon from "@mui/icons-material/Home";
-import PointOfSaleIcon from "@mui/icons-material/PointOfSale";
-import DescriptionIcon from "@mui/icons-material/Description";
-import SettingsIcon from "@mui/icons-material/Settings";
+import React from "react";
 import { useNavigate } from "react-router-dom";
-import { fetchProduct } from "../features/product/productSlice";
-import { fetchCategory } from "../features/product/productSlice";
 import { useDispatch } from "react-redux";
 
 function Navbar() {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(fetchProduct());
-    dispatch(fetchCategory());
-  }, []);
+  const navigate = useNavigate();
 
   return (
-    <div className="flex float-left pr-7">
-      <div className="flex flex-col h-screen p-3 bg-gray-800 shadow w-60">
-        <div className="space-y-3">
-          <div className="flex items-center">
-            <h2 className="text-xl font-bold text-white">Dashboard</h2>
-          </div>
-          <div className="relative">
-            <span className="absolute inset-y-0 left-0 flex items-center py-4">
-              <button
-                type="button"
-                className="p-2 focus:outline-none focus:ring"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="w-6 h-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                  />
-                </svg>
-              </button>
+    <>
+      {/* <div classNameName="bg-black flex flex-row justify-between items-center px-10 h-20">
+        <div classNameName="text-white">
+          <p className="font-semibold text-lg">Ecommerce Wannabe</p>
+        </div>
+        <div className="text-white flex flex-row items-center gap-10">
+          <p>Home</p>
+          <p>Product</p>
+          <p>About</p>
+          <p
+            className="hover:cursor-pointer"
+            onClick={() => navigate("/user/register")}
+          >
+            Register
+          </p>
+          <p
+            className="hover:cursor-pointer"
+            onClick={() => navigate("/user/login")}
+          >
+            Login
+          </p>
+        </div>
+      </div> */}
+      <div className="absolute top-0 z-30 flex flex-wrap items-center justify-between w-full px-4 py-2 mb-4 shadow-none lg:flex-nowrap lg:justify-start bg-slate-700">
+        <div className="container flex items-center justify-between py-0 flex-wrap-inherit">
+          <a
+            className="py-2.375 text-sm mr-4 ml-4 whitespace-nowrap font-bold text-white lg:ml-0"
+            href="../pages/dashboard.html"
+          >
+            Lychee POS
+          </a>
+          <button
+            className="px-3 py-1 ml-2 leading-none transition-all bg-transparent border border-transparent border-solid rounded-lg shadow-none cursor-pointer text-lg ease-soft-in-out lg:hidden"
+            type="button"
+            aria-controls="navigation"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span className="inline-block mt-2 align-middle bg-center bg-no-repeat bg-cover w-6 h-6 bg-none">
+              <span className="w-5.5 rounded-xs duration-350 relative my-0 mx-auto block h-px bg-white transition-all"></span>
+              <span className="w-5.5 rounded-xs mt-1.75 duration-350 relative my-0 mx-auto block h-px bg-white transition-all"></span>
+              <span className="w-5.5 rounded-xs mt-1.75 duration-350 relative my-0 mx-auto block h-px bg-white transition-all"></span>
             </span>
-            <input
-              type="search"
-              name="Search"
-              placeholder="Search..."
-              className="w-full py-2 pl-10 text-sm rounded-md focus:outline-none"
-            />
-          </div>
-          <div className="flex-1">
-            <ul className="pt-2 pb-4 space-y-1 text-sm">
-              <li className="rounded-sm">
-                <button
-                  className="flex items-center p-2 space-x-3 rounded-md"
-                  onClick={() => {
-                    navigate(`/product`);
-                  }}
-                >
-                  <HomeIcon className="w-6 h-6 text-gray-100" />
-                  <span className="text-gray-100">Product</span>
-                </button>
-              </li>
-
-              <li className="rounded-sm">
-                <button
-                  onClick={() => {
-                    navigate(`/category`);
-                  }}
-                  className="flex items-center p-2 space-x-3 rounded-md"
-                >
-                  <CategoryIcon className="w-6 h-6 text-gray-100" />
-                  <span className="text-gray-100">Category</span>
-                </button>
-              </li>
-
-              <li className="rounded-sm">
-                <button
-                  onClick={() => {
-                    navigate(`/transaction`);
-                  }}
-                  className="flex items-center p-2 space-x-3 rounded-md"
-                >
-                  <PointOfSaleIcon className="w-6 h-6 text-gray-100" />
-                  <span className="text-gray-100">Transaction</span>
-                </button>
-              </li>
-
-              <li className="rounded-sm">
-                <button
-                  onClick={() => {
-                    navigate(`/report`);
-                  }}
-                  className="flex items-center p-2 space-x-3 rounded-md"
-                >
-                  <DescriptionIcon className=" w-6 h-6 text-gray-100" />
-                  <span className="text-gray-100">Report</span>
-                </button>
-              </li>
-
-              <li className="rounded-sm">
-                <button
-                  onClick={() => {
-                    navigate(`/setting`);
-                  }}
-                  className="flex items-center p-2 space-x-3 rounded-md"
-                >
-                  <SettingsIcon className=" w-6 h-6 text-gray-100" />
-                  <span className="text-gray-100">Setting</span>
-                </button>
-              </li>
-
-              <li className="rounded-sm">
+          </button>
+          <div className="items-center flex-grow transition-all ease-soft duration-350 lg-max:bg-white lg-max:max-h-0 lg-max:overflow-hidden basis-full rounded-xl lg:flex lg:basis-auto">
+            <ul className="flex flex-col pl-0 mx-auto mb-0 list-none lg:flex-row xl:ml-auto">
+              <li>
                 <a
-                  href="#"
-                  className="flex items-center p-2 space-x-3 rounded-md"
+                  className="flex items-center px-4 py-2 mr-2 font-normal text-white transition-all duration-250 lg-max:opacity-0 lg-max:text-slate-700 ease-soft-in-out text-sm lg:px-2 lg:hover:text-white/75"
+                  aria-current="page"
+                  href="../pages/dashboard.html"
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="w-6 h-6 text-gray-100"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth={2}
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"
-                    />
-                  </svg>
-                  <span className="text-gray-100">Logout</span>
+                  <i className="mr-1 text-white lg-max:text-slate-700 fa fa-chart-pie opacity-60"></i>
+                  Dashboard
+                </a>
+              </li>
+
+              <li>
+                <a
+                  className="block px-4 py-2 mr-2 font-normal text-white transition-all duration-250 lg-max:opacity-0 lg-max:text-slate-700 ease-soft-in-out text-sm lg:px-2 lg:hover:text-white/75"
+                  onClick={() => navigate("/user/register")}
+                >
+                  <i className="mr-1 text-white lg-max:text-slate-700 fas fa-user-circle opacity-60"></i>
+                  Register
+                </a>
+              </li>
+              <li>
+                <a
+                  className="block px-4 py-2 mr-2 font-normal text-white transition-all duration-250 lg-max:opacity-0 lg-max:text-slate-700 ease-soft-in-out text-sm lg:px-2 lg:hover:text-white/75"
+                  onClick={() => navigate("/user/login")}
+                >
+                  <i className="mr-1 text-white lg-max:text-slate-700 fas fa-key opacity-60"></i>
+                  Login
                 </a>
               </li>
             </ul>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

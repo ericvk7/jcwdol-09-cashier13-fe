@@ -5,7 +5,7 @@ function Home() {
   const userGlobal = useSelector((state) => state.user.user);
 
   return (
-    <div>
+    <div className="mt-30">
       <p>Welcome {userGlobal.name}</p>
     </div>
   );

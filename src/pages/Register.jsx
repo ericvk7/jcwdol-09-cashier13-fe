@@ -29,7 +29,7 @@ function Register() {
       alert(response.data.message);
       setIsLoading(false);
 
-      navigate("/login");
+      navigate("/");
     } catch (error) {
       console.log(error);
     }
