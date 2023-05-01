@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { fetchProduct } from "../features/product/productSlice";
 import { fetchCategory } from "../features/product/productSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { logoutUser } from "../features/user/userSlice";
 
 function Sidebar() {
   const navigate = useNavigate();
@@ -136,7 +137,14 @@ function Sidebar() {
                       d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"
                     />
                   </svg>
-                  <span className="text-gray-100">Logout</span>
+                  <span
+                    onClick={() => {
+                      dispatch(logoutUser());
+                    }}
+                    className="hover:cursor-pointer text-gray-100 "
+                  >
+                    Logout
+                  </span>
                 </a>
               </li>
             </ul>

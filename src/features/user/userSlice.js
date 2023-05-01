@@ -42,7 +42,7 @@ export function loginUser(data) {
     if (response.data.success) {
       dispatch(setUser(response.data.data));
       localStorage.setItem("user_token", response.data.token);
-      alert("im success");
+      alert("Login Success");
     } else {
       alert(response.data.message);
     }
@@ -68,5 +68,6 @@ export function logoutUser() {
   return async (dispatch) => {
     dispatch(resetUser());
     localStorage.removeItem("user_token");
+    alert("Logout Success");
   };
 }

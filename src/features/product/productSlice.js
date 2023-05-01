@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 import Axios from "axios";
-import { distance } from "framer-motion";
 
 export const productSlice = createSlice({
   name: "product",

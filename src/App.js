@@ -30,15 +30,6 @@ function App() {
   });
   return (
     <div>
-      {/* <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/user/register" element={<Register />} />
-        <Route path="/user/login" element={<Login />} />
-        <Route path="/user/verification/:token" element={<Verification />} />
-      </Routes> */}
-      {/* <div>
-        <Navbar />
-      </div> */}
       <div>
         {userGlobal.id > 0 ? <Sidebar /> : <Navbar />}
         <Routes>

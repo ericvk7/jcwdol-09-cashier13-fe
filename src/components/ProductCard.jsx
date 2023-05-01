@@ -50,7 +50,7 @@ function ProductCard(props) {
             See Detail
           </Button>
           <Button variant="ghost" colorScheme="blue">
-            Add to cart
+            Add to transaction
           </Button>
         </ButtonGroup>
       </CardFooter>

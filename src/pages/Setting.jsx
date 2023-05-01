@@ -176,7 +176,7 @@ function Setting() {
               colorScheme="red"
               onClick={() => deleteCategory(category.id_categories)}
             >
-              Delet
+              Delete
             </Button>
           </Td>
         </Tr>
