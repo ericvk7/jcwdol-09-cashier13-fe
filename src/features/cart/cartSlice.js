@@ -5,13 +5,12 @@ export const cartSlice = createSlice({
   name: "cart",
   initialState: {
     cartList: [],
-    cart: {
-      id: 0,
-      price: 0,
-      productName: "",
-      productImage: "",
-      quantity: 0,
-    },
+    // cart: {
+    //   id: 0,
+    //   productName: "",
+    //   quantity: 0,
+    //   price: 0,
+    // },
   },
   reducers: {
     setCart: (state, action) => {
@@ -47,8 +46,8 @@ export function getProductById(productId) {
 
 export function addToCart(data) {
   return async (dispatch) => {
-    let response = await Axios.post("http://localhost:8001/carts", data);
-    dispatch(addCart(response.data));
+    // let response = await Axios.post("http://localhost:8001/carts", data);
+    // dispatch(addCart(response.data));
   };
 }
 

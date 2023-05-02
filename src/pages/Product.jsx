@@ -6,23 +6,43 @@ import ProductCard from "../components/ProductCard";
 import { Pagination } from "@material-ui/lab";
 import usePagination from "./Pagination";
 import {
-  Divider,
+  Button,
   Select,
   Stack,
-  Checkbox,
-  CheckboxGroup,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter,
+  Table,
+  Thead,
+  Tbody,
+  Tfoot,
+  Tr,
+  Th,
+  Td,
+  TableCaption,
+  TableContainer,
 } from "@chakra-ui/react";
-import CartModal from "../components/CartModal";
+import { useDisclosure } from "@chakra-ui/react";
 
 function Product() {
   const dispatch = useDispatch();
   const productValue = useSelector((state) => state.product.productValue);
   const categoryValue = useSelector((state) => state.product.categoryValue);
+  const cartList = useSelector((state) => state.cart.cartList);
 
   const [inputText, setInputText] = useState("");
   const [dropDown, UseDropDown] = useState("");
   const [shortHendeler, UseShortHendeler] = useState();
   const [acddec, UseAcddec] = useState();
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [scrollBehavior, setScrollBehavior] = React.useState("inside");
+
+  const btnRef = React.useRef(null);
 
   console.log(shortHendeler, acddec);
   let inputTextHendeler = (e) => {
@@ -82,6 +102,18 @@ function Product() {
     });
   };
 
+  const renderCartList = () => {
+    return cartList.map((cart, index) => {
+      return (
+        <Tr>
+          <Td>{index + 1}</Td>
+          <Td>{cart.productName}</Td>
+          <Td>{cart.quantity}</Td>
+          <Td>{cart.price}</Td>
+        </Tr>
+      );
+    });
+  };
   useEffect(() => {
     dispatch(fetchProduct());
   }, []);
@@ -144,17 +176,54 @@ function Product() {
 
         <div className="space-y-2">
           <div className="invoice">
-            <button
-              type="button"
-              class="inline-block rounded bg-primary px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-black shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
-              data-te-toggle="modal"
-              data-te-target="#exampleModalCenteredScrollable"
-              data-te-ripple-init
-              data-te-ripple-color="light"
-              onClick={() => CartModal()}
+            <Button mt={3} ref={btnRef} onClick={onOpen}>
+              Transaction
+            </Button>
+
+            <Modal
+              onClose={onClose}
+              finalFocusRef={btnRef}
+              isOpen={isOpen}
+              scrollBehavior={scrollBehavior}
+              size={"2xl"}
             >
-              Invoice
-            </button>
+              <ModalOverlay />
+              <ModalContent>
+                <ModalHeader>Transaction List</ModalHeader>
+                <ModalCloseButton />
+                <ModalBody>
+                  <div>
+                    <TableContainer>
+                      <Table variant="simple">
+                        <TableCaption>
+                          Click Create Transaction to Create List
+                        </TableCaption>
+                        <Thead>
+                          <Tr>
+                            <Th>No.</Th>
+                            <Th>Name</Th>
+                            <Th>Quantity</Th>
+                            <Th>Price</Th>
+                          </Tr>
+                        </Thead>
+                        <Tbody>{renderCartList()}</Tbody>
+                        <Tfoot>
+                          <Tr>
+                            <Th>Total Transaction</Th>
+                            <Th></Th>
+                            <Th>Total Price Here</Th>
+                          </Tr>
+                        </Tfoot>
+                      </Table>
+                    </TableContainer>
+                  </div>
+                </ModalBody>
+                <ModalFooter>
+                  <Button onClick={onClose}>Return</Button>
+                  <Button onClick={onClose}>Create Transaction</Button>
+                </ModalFooter>
+              </ModalContent>
+            </Modal>
           </div>
         </div>
       </Stack>

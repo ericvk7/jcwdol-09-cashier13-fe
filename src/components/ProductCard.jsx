@@ -14,11 +14,23 @@ import {
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
+import { addCart } from "../features/cart/cartSlice";
 
 function ProductCard(props) {
   const { product } = props;
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const addTransaction = () => {
+    dispatch(
+      addCart({
+        productId: product.id_products,
+        productName: product.name,
+        price: product.price,
+        quantity: 1,
+      })
+    );
+  };
 
   return (
     <Card maxW="sm">
@@ -49,7 +61,11 @@ function ProductCard(props) {
           >
             See Detail
           </Button>
-          <Button variant="ghost" colorScheme="blue">
+          <Button
+            variant="ghost"
+            colorScheme="blue"
+            onClick={() => addTransaction()}
+          >
             Add to transaction
           </Button>
         </ButtonGroup>

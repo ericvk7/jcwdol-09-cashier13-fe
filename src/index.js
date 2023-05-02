@@ -9,9 +9,9 @@ import { Provider } from "react-redux";
 import { ChakraProvider } from "@chakra-ui/react";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 // Initialization for ES Users
-import { Modal, Ripple, initTE } from "tw-elements";
+// import { Modal, Ripple, initTE } from "tw-elements";
 
-initTE({ Modal, Ripple });
+// initTE({ Modal, Ripple });
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
