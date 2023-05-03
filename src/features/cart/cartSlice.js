@@ -51,13 +51,19 @@ export function addToCart(data) {
   };
 }
 
+// export function deleteCart(id) {
+//   return async (dispatch) => {
+//     let response = await Axios.delete(`http://localhost:8001/carts$` + { id }, {
+//       params: {
+//         id: id,
+//       },
+//     });
+//     dispatch(setCart(response.data));
+//   };
+// }
+
 export function deleteCart(id) {
   return async (dispatch) => {
-    let response = await Axios.delete(`http://localhost:8001/carts$` + { id }, {
-      params: {
-        id: id,
-      },
-    });
-    dispatch(setCart(response.data));
+    // dispatch(setCart(response.data));
   };
 }

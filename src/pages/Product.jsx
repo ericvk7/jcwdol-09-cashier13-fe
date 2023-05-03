@@ -27,6 +27,8 @@ import {
   TableContainer,
 } from "@chakra-ui/react";
 import { useDisclosure } from "@chakra-ui/react";
+import { increment, decrement } from "../features/counter/counterSlice";
+import { deleteCart } from "../features/cart/cartSlice";
 
 function Product() {
   const dispatch = useDispatch();
@@ -40,11 +42,27 @@ function Product() {
   const [acddec, UseAcddec] = useState();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [transactionDate, setTransactionDate] = useState(new Date());
   const [scrollBehavior, setScrollBehavior] = React.useState("inside");
+
+  const [cartItems, setCartItems] = useState("");
+
+  const formatPrice = (price) => {
+    return price.toLocaleString("id-ID", {
+      style: "currency",
+      currency: "IDR",
+      minimumFractionDigits: 0,
+    });
+  };
+
+  let totalPrice = 0;
+  const rows = cartList.map((item, index) => {
+    const subtotal = item.quantity * item.price;
+    totalPrice += subtotal;
+  });
 
   const btnRef = React.useRef(null);
 
-  console.log(shortHendeler, acddec);
   let inputTextHendeler = (e) => {
     var dataInput = e.target.value;
     setInputText(dataInput);
@@ -102,18 +120,36 @@ function Product() {
     });
   };
 
+  const increaseQty = (productId) => {
+    alert(productId);
+  };
+
   const renderCartList = () => {
     return cartList.map((cart, index) => {
       return (
         <Tr>
           <Td>{index + 1}</Td>
           <Td>{cart.productName}</Td>
-          <Td>{cart.quantity}</Td>
-          <Td>{cart.price}</Td>
+          <Td>
+            <Button onClick={() => dispatch(decrement(cart))}>-</Button>
+            {cart.quantity}
+            <Button onClick={() => increaseQty(cart.productId)}>+</Button>
+          </Td>
+          <Td>{formatPrice(cart.price)}</Td>
+          <Td>{formatPrice(cart.quantity * cart.price)}</Td>
+          <Td>
+            <Button
+              colorScheme="red"
+              onClick={() => deleteCart(cartList.productId)}
+            >
+              Delete
+            </Button>
+          </Td>
         </Tr>
       );
     });
   };
+
   useEffect(() => {
     dispatch(fetchProduct());
   }, []);
@@ -189,7 +225,17 @@ function Product() {
             >
               <ModalOverlay />
               <ModalContent>
-                <ModalHeader>Transaction List</ModalHeader>
+                <div className="grid grid-cols-2">
+                  <ModalHeader>Transaction List</ModalHeader>
+                  <ModalHeader>
+                    Date:{" "}
+                    {transactionDate.toLocaleDateString("en-GB", {
+                      day: "numeric",
+                      month: "short",
+                      year: "numeric",
+                    })}
+                  </ModalHeader>
+                </div>
                 <ModalCloseButton />
                 <ModalBody>
                   <div>
@@ -204,6 +250,8 @@ function Product() {
                             <Th>Name</Th>
                             <Th>Quantity</Th>
                             <Th>Price</Th>
+                            <Th>Subtotal</Th>
+                            <Th>Status</Th>
                           </Tr>
                         </Thead>
                         <Tbody>{renderCartList()}</Tbody>
@@ -211,7 +259,8 @@ function Product() {
                           <Tr>
                             <Th>Total Transaction</Th>
                             <Th></Th>
-                            <Th>Total Price Here</Th>
+                            <Th>{formatPrice(totalPrice)}</Th>{" "}
+                            {/* Display the total price */}
                           </Tr>
                         </Tfoot>
                       </Table>
