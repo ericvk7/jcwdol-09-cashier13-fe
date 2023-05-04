@@ -27,7 +27,6 @@ export const productSlice = createSlice({
     addProductList: (state, action) => {
       state.productValue.push(action.payload);
     },
-
     setCategoryList: (state, action) => {
       state.categoryValue = action.payload;
     },

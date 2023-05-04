@@ -1,16 +1,31 @@
 import { createSlice } from "@reduxjs/toolkit";
 import Axios from "axios";
 
+// export const cartSlice = createSlice({
+//   name: "cart",
+//   initialState: {
+//     cartList: [],
+//     // cart: {
+//     //   id: 0,
+//     //   productName: "",
+//     //   quantity: 0,
+//     //   price: 0,
+//     // },
+//   },
+//   reducers: {
+//     setCart: (state, action) => {
+//       state.cartList = action.payload;
+//     },
+//     addCart: (state, action) => {
+//       state.cartList.push(action.payload);
+//     },
+//   },
+// });
+
 export const cartSlice = createSlice({
   name: "cart",
   initialState: {
     cartList: [],
-    // cart: {
-    //   id: 0,
-    //   productName: "",
-    //   quantity: 0,
-    //   price: 0,
-    // },
   },
   reducers: {
     setCart: (state, action) => {
@@ -19,10 +34,14 @@ export const cartSlice = createSlice({
     addCart: (state, action) => {
       state.cartList.push(action.payload);
     },
+    deleteCart: (state, action) => {},
+    increaseQty: (state, action) => {
+      state.cartList[action.payload].quantity++;
+    },
   },
 });
 
-export const { setCart, addCart } = cartSlice.actions;
+export const { setCart, addCart, deleteCart, increaseQty } = cartSlice.actions;
 export default cartSlice.reducer;
 
 export function fetchCarts() {
@@ -62,8 +81,8 @@ export function addToCart(data) {
 //   };
 // }
 
-export function deleteCart(id) {
-  return async (dispatch) => {
-    // dispatch(setCart(response.data));
-  };
-}
+// export function deleteCart(id) {
+//   return async (dispatch) => {
+//     // dispatch(setCart(response.data));
+//   };
+// }

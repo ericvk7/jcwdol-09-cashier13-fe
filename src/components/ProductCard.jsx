@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Card,
   CardHeader,
@@ -13,23 +13,40 @@ import {
   Button,
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router";
-import { useDispatch } from "react-redux";
-import { addCart } from "../features/cart/cartSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { addCart, updateCart, increaseQty } from "../features/cart/cartSlice";
 
 function ProductCard(props) {
   const { product } = props;
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const cartList = useSelector((state) => state.cart.cartList);
 
   const addTransaction = () => {
-    dispatch(
-      addCart({
-        productId: product.id_products,
-        productName: product.name,
-        price: product.price,
-        quantity: 1,
-      })
-    );
+    let exist = false;
+    cartList.map((cart) => {
+      if (cart.productId == product.id_products) {
+        exist = true;
+      }
+    });
+    if (exist) {
+      let cartIndex = null;
+      cartList.map((cart, index) => {
+        if (cart.productId == product.id_products) {
+          cartIndex = index;
+        }
+      });
+      dispatch(increaseQty(cartIndex));
+    } else {
+      dispatch(
+        addCart({
+          productId: product.id_products,
+          productName: product.name,
+          price: product.price,
+          quantity: 1,
+        })
+      );
+    }
   };
 
   return (
@@ -64,7 +81,7 @@ function ProductCard(props) {
           <Button
             variant="ghost"
             colorScheme="blue"
-            onClick={() => addTransaction()}
+            onClick={() => addTransaction(product)}
           >
             Add to transaction
           </Button>

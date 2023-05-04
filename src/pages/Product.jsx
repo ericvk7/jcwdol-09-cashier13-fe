@@ -124,6 +124,10 @@ function Product() {
     alert(productId);
   };
 
+  const decreaseQty = (productId) => {
+    alert(productId);
+  };
+
   const renderCartList = () => {
     return cartList.map((cart, index) => {
       return (
@@ -131,17 +135,14 @@ function Product() {
           <Td>{index + 1}</Td>
           <Td>{cart.productName}</Td>
           <Td>
-            <Button onClick={() => dispatch(decrement(cart))}>-</Button>
+            <Button onClick={() => decreaseQty(cart.productId)}>-</Button>
             {cart.quantity}
             <Button onClick={() => increaseQty(cart.productId)}>+</Button>
           </Td>
           <Td>{formatPrice(cart.price)}</Td>
           <Td>{formatPrice(cart.quantity * cart.price)}</Td>
           <Td>
-            <Button
-              colorScheme="red"
-              onClick={() => deleteCart(cartList.productId)}
-            >
+            <Button colorScheme="red" onClick={() => dispatch(deleteCart())}>
               Delete
             </Button>
           </Td>
